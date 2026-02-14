@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { MessageSquare, BookOpen, Rocket, Users, Radio, HeartPulse, Landmark } from 'lucide-react';
+import { MessageSquare, BookOpen, Rocket, Users, Radio, HeartPulse, Landmark, CheckCircle, Activity, BookUser } from 'lucide-react';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import ThemeToggle from '../components/ThemeToggle';
+import heroImage from '../Images/IIT-Mandi-Featured-Image.jpg';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -57,6 +58,13 @@ const Landing = () => {
     }
   ];
 
+  const stats = [
+    { label: 'Active Students', value: '5000+', icon: Users },
+    { label: 'Faculty Members', value: '200+', icon: BookUser },
+    { label: 'Resolved Issues', value: '1500+', icon: CheckCircle },
+    { label: 'System Uptime', value: '99.9%', icon: Activity }
+  ];
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -64,25 +72,17 @@ const Landing = () => {
         style={{ opacity, scale }}
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
       >
-        {/* Animated Mountain Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-aegis-sky/20 via-aegis-mist to-white dark:from-aegis-navy dark:via-aegis-dark-mist dark:to-aegis-navy">
-          <svg className="absolute bottom-0 w-full h-2/3" viewBox="0 0 1200 600" preserveAspectRatio="none">
-            <motion.path
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.3 }}
-              transition={{ duration: 2, ease: "easeInOut" }}
-              d="M0,400 L200,250 L400,350 L600,150 L800,300 L1000,200 L1200,350 L1200,600 L0,600 Z"
-              fill="url(#mountain-gradient)"
-              className="dark:opacity-20"
-            />
-            <defs>
-              <linearGradient id="mountain-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#2D5016" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#2D5016" stopOpacity="0.1" />
-              </linearGradient>
-            </defs>
-          </svg>
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 dark:opacity-20"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
 
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent" />
+
+        {/* Additional Gradient for Base */}
+        <div className="absolute inset-0 bg-gradient-to-b from-aegis-sky/20 via-aegis-mist to-white dark:from-aegis-navy dark:via-aegis-dark-mist dark:to-aegis-navy">
           {/* Mist Effect */}
           <motion.div
             animate={{ x: [-20, 20, -20] }}
@@ -104,10 +104,14 @@ const Landing = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <motion.h1
-              className="text-6xl md:text-8xl font-bold mb-6 text-gradient"
+              className="text-7xl md:text-9xl font-bold mb-6 text-gradient relative"
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.8 }}
+              style={{
+                textShadow: '0 0 40px rgba(45, 80, 22, 0.5), 0 0 80px rgba(45, 80, 22, 0.3), 0 0 120px rgba(45, 80, 22, 0.2)',
+                filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.4))'
+              }}
             >
               AEGIS
             </motion.h1>
@@ -120,7 +124,7 @@ const Landing = () => {
               The Unified Digital Citadel
             </motion.p>
             <motion.p
-              className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-12"
+              className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-12"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
@@ -160,6 +164,49 @@ const Landing = () => {
           </motion.div>
         </div>
       </motion.section>
+
+      {/* Statistics Section */}
+      <section className="py-16 px-4 bg-white/80 dark:bg-aegis-navy/80 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: i * 0.1,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                className="text-center"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.2, rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                  className="flex justify-center mb-4"
+                >
+                  <stat.icon className="w-12 h-12 text-aegis-forest dark:text-aegis-emerald" />
+                </motion.div>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  className="text-4xl font-bold text-aegis-forest dark:text-aegis-emerald mb-2"
+                >
+                  {stat.value}
+                </motion.p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Seven Pillars Section */}
       <section className="py-20 px-4 bg-white dark:bg-aegis-navy">

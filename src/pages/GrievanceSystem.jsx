@@ -19,7 +19,10 @@ const GrievanceSystem = () => {
     title: '',
     category: '',
     description: '',
-    priority: 'medium'
+    priority: 'medium',
+    isAnonymous: false,
+    location: '',
+    attachments: []
   });
 
   const categories = ['Academic', 'Hostel', 'Infrastructure', 'Transport', 'Administration', 'Other'];
@@ -99,7 +102,15 @@ const GrievanceSystem = () => {
       // Submit grievance
       setShowNewGrievanceModal(false);
       setFormStep(1);
-      setNewGrievance({ title: '', category: '', description: '', priority: 'medium' });
+      setNewGrievance({
+        title: '',
+        category: '',
+        description: '',
+        priority: 'medium',
+        isAnonymous: false,
+        location: '',
+        attachments: []
+      });
     }
   };
 
@@ -284,9 +295,29 @@ const GrievanceSystem = () => {
               className="space-y-4"
             >
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">Details</h3>
+
+              {/* Anonymous Submission Toggle */}
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-aegis-dark-mist rounded-xl">
+                <div>
+                  <label htmlFor="isAnonymous" className="text-sm font-medium text-gray-900 dark:text-white cursor-pointer">
+                    Submit Anonymously
+                  </label>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Your identity will be hidden from public view
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  id="isAnonymous"
+                  checked={newGrievance.isAnonymous}
+                  onChange={(e) => setNewGrievance({ ...newGrievance, isAnonymous: e.target.checked })}
+                  className="w-5 h-5 text-aegis-forest bg-gray-100 border-gray-300 rounded focus:ring-aegis-forest dark:focus:ring-aegis-emerald dark:bg-gray-700 dark:border-gray-600"
+                />
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Description
+                  Description <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={newGrievance.description}
@@ -296,8 +327,39 @@ const GrievanceSystem = () => {
                     bg-white dark:bg-aegis-dark-mist text-gray-900 dark:text-gray-100
                     focus:border-aegis-forest dark:focus:border-aegis-emerald focus:outline-none"
                   placeholder="Provide detailed information about your grievance..."
+                  required
                 />
               </div>
+
+              {/* Location Field */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Location (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={newGrievance.location}
+                  onChange={(e) => setNewGrievance({ ...newGrievance, location: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-aegis-slate
+                    bg-white dark:bg-aegis-dark-mist text-gray-900 dark:text-gray-100
+                    focus:border-aegis-forest dark:focus:border-aegis-emerald focus:outline-none"
+                  placeholder="e.g., Block A - Room 204, Main Library, etc."
+                />
+              </div>
+
+              {/* File Attachment Placeholder */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Attachments (Optional)
+                </label>
+                <div className="border-2 border-dashed border-gray-300 dark:border-aegis-slate rounded-xl p-6 text-center hover:border-aegis-forest dark:hover:border-aegis-emerald transition-colors cursor-pointer">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Click to upload or drag and drop</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    Images or documents (Max 10MB)
+                  </p>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Priority Level
@@ -341,9 +403,21 @@ const GrievanceSystem = () => {
                   <p className="font-medium text-gray-900 dark:text-white">{newGrievance.category}</p>
                 </div>
                 <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Submission Type</p>
+                  <Badge variant={newGrievance.isAnonymous ? 'warning' : 'info'}>
+                    {newGrievance.isAnonymous ? 'Anonymous' : 'Identified'}
+                  </Badge>
+                </div>
+                <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">Priority</p>
                   <Badge variant={getPriorityColor(newGrievance.priority)}>{newGrievance.priority.toUpperCase()}</Badge>
                 </div>
+                {newGrievance.location && (
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Location</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{newGrievance.location}</p>
+                  </div>
+                )}
                 <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">Description</p>
                   <p className="text-gray-900 dark:text-white">{newGrievance.description}</p>

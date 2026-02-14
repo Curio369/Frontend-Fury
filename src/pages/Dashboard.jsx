@@ -4,14 +4,16 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Card from '../components/Card';
 import Badge from '../components/Badge';
 import ThemeToggle from '../components/ThemeToggle';
-import { Landmark, LayoutDashboard, MessageSquare, BookOpen, Rocket, Users, Menu, Bell } from 'lucide-react';
+import { Landmark, LayoutDashboard, MessageSquare, BookOpen, Rocket, Users, Menu, Bell, Shield } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, isAdmin } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const userRole = location.state?.role || 'student';
+  const userRole = user?.role || location.state?.role || 'student';
 
   const menuItems = [
     { id: 'overview', name: 'Overview', icon: LayoutDashboard, path: '/dashboard' },
@@ -86,6 +88,26 @@ const Dashboard = () => {
               </motion.button>
             ))}
           </nav>
+
+          {/* Admin Panel Access - Only visible to admins */}
+          {isAdmin() && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="mt-6 pt-6 border-t border-gray-200 dark:border-aegis-dark-mist"
+            >
+              <motion.button
+                whileHover={{ scale: 1.02, x: 5 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => navigate('/admin')}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-aegis-forest to-aegis-emerald text-white hover:shadow-lg transition-all duration-300"
+              >
+                <Shield className="w-5 h-5" />
+                <span className="font-medium">High Command</span>
+              </motion.button>
+            </motion.div>
+          )}
 
           {/* User Profile */}
           <motion.div

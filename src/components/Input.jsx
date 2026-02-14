@@ -2,12 +2,14 @@ import React from 'react';
 
 const Input = ({
   type = 'text',
+  name,
   label,
   placeholder,
   value,
   onChange,
   error = '',
   required = false,
+  autoFocus = false,
   icon = null,
   className = ''
 }) => {
@@ -26,10 +28,12 @@ const Input = ({
         )}
         <input
           type={type}
+          name={name}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
           required={required}
+          autoFocus={autoFocus}
           className={`w-full px-4 py-3 ${icon ? 'pl-10' : ''} rounded-xl border-2 border-gray-200 dark:border-aegis-slate
             bg-white dark:bg-aegis-dark-mist text-gray-900 dark:text-gray-100
             focus:border-aegis-forest dark:focus:border-aegis-emerald focus:outline-none

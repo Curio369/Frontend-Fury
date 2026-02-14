@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { GraduationCap, BookUser, Briefcase, Shield } from 'lucide-react';
+import { GraduationCap, BookUser, Briefcase, Shield, AlertCircle, CheckCircle } from 'lucide-react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import ThemeToggle from '../components/ThemeToggle';
+import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -26,29 +30,97 @@ const Register = () => {
     { id: 'admin', name: 'Admin', icon: Shield, description: 'System Administrator' }
   ];
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const validateInstituteEmail = (email) => {
+    const validDomains = ['university.edu', 'iitmandi.ac.in', 'students.iitmandi.ac.in'];
+    const emailDomain = email.split('@')[1];
+    return validDomains.includes(emailDomain);
   };
 
-  const handleSubmit = (e) => {
+  const validateStep1 = () => {
+    setError('');
+
+    if (!formData.fullName.trim()) {
+      setError('Please enter your full name');
+      return false;
+    }
+
+    if (!validateInstituteEmail(formData.email)) {
+      setError('Please use your institute email address (@iitmandi.ac.in or @university.edu)');
+      return false;
+    }
+
+    if (!formData.universityId.trim()) {
+      setError('Please enter your university ID');
+      return false;
+    }
+
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      return false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(''); // Clear error on input change
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (step === 1) {
-      setStep(2);
+      if (validateStep1()) {
+        setStep(2);
+      }
     } else {
-      // Simulate registration
-      setTimeout(() => {
-        navigate('/login');
-      }, 1000);
+      if (!formData.role) {
+        setError('Please select your role');
+        return;
+      }
+
+      setIsLoading(true);
+
+      try {
+        const result = await register(
+          formData.email,
+          formData.password,
+          formData.role,
+          {
+            fullName: formData.fullName,
+            universityId: formData.universityId
+          }
+        );
+
+        if (result.success) {
+          // Show success message and redirect
+          setTimeout(() => {
+            navigate('/login');
+          }, 1500);
+        } else {
+          setError(result.message || 'Registration failed. Please try again.');
+          setIsLoading(false);
+        }
+      } catch (err) {
+        setError('An error occurred during registration. Please try again.');
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-aegis-sky/20 via-aegis-mist to-white dark:from-aegis-navy dark:via-aegis-dark-mist dark:to-aegis-slate" />
+      <div className="absolute inset-0 bg-gradient-to-br from-aegis-sky/20 via-aegis-mist to-white dark:from-aegis-navy dark:via-aegis-dark-mist dark:to-aegis-slate pointer-events-none" />
 
       {/* Mountain Silhouette */}
-      <svg className="absolute bottom-0 w-full h-1/3 opacity-10" viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <svg className="absolute bottom-0 w-full h-1/3 opacity-10 pointer-events-none" viewBox="0 0 1200 300" preserveAspectRatio="none">
         <path d="M0,200 L300,100 L600,150 L900,50 L1200,150 L1200,300 L0,300 Z" fill="currentColor" className="text-aegis-forest dark:text-aegis-emerald" />
       </svg>
 
@@ -60,7 +132,7 @@ const Register = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-2xl"
+        className="relative z-20 w-full max-w-2xl"
       >
         <div className="text-center mb-8">
           <motion.h1
@@ -79,8 +151,20 @@ const Register = () => {
           </div>
         </div>
 
-        <Card glass={true} padding="lg">
+        <Card glass={true} padding="lg" hover={false}>
           <form onSubmit={handleSubmit}>
+            {/* Error Message */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 mb-6 bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl flex items-center gap-3"
+              >
+                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+                <p className="text-sm text-red-800 dark:text-red-300">{error}</p>
+              </motion.div>
+            )}
+
             {step === 1 ? (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
@@ -105,8 +189,8 @@ const Register = () => {
                 <Input
                   type="email"
                   name="email"
-                  label="University Email"
-                  placeholder="john.doe@university.edu"
+                  label="Institute Email"
+                  placeholder="john.doe@iitmandi.ac.in"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -191,8 +275,8 @@ const Register = () => {
                   <Button type="button" variant="ghost" onClick={() => setStep(1)} className="flex-1">
                     Back
                   </Button>
-                  <Button type="submit" className="flex-1" disabled={!formData.role}>
-                    Request Access
+                  <Button type="submit" className="flex-1" disabled={!formData.role || isLoading}>
+                    {isLoading ? 'Submitting Request...' : 'Request Access'}
                   </Button>
                 </div>
               </motion.div>

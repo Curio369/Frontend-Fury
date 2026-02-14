@@ -5,6 +5,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import GrievanceSystem from './pages/GrievanceSystem';
 import AcademicMastery from './pages/AcademicMastery';
 import Opportunities from './pages/Opportunities';
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/grievance" element={<GrievanceSystem />} />
           <Route path="/academic" element={<AcademicMastery />} />
           <Route path="/opportunities" element={<Opportunities />} />
