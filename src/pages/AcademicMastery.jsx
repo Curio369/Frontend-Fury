@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, FileText, Video, BarChart3, FileEdit, Folder, Search } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Badge from '../components/Badge';
@@ -87,12 +88,13 @@ const AcademicMastery = () => {
 
   const getResourceIcon = (type) => {
     const icons = {
-      PDF: '📄',
-      Video: '🎥',
-      Slides: '📊',
-      Document: '📝'
+      PDF: FileText,
+      Video: Video,
+      Slides: BarChart3,
+      Document: FileEdit
     };
-    return icons[type] || '📁';
+    const Icon = icons[type] || Folder;
+    return Icon;
   };
 
   return (
@@ -108,9 +110,7 @@ const AcademicMastery = () => {
                 onClick={() => navigate('/dashboard')}
                 className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-aegis-dark-mist transition-colors"
               >
-                <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
+                <ArrowLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </motion.button>
               <div>
                 <h1 className="text-3xl font-bold text-gradient">Fate - Academic Mastery</h1>
@@ -261,9 +261,7 @@ const AcademicMastery = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 icon={
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
+                  <Search className="w-5 h-5" />
                 }
               />
             </div>
@@ -278,7 +276,7 @@ const AcademicMastery = () => {
                 >
                   <Card hover={true} className="cursor-pointer">
                     <div className="flex items-start gap-3">
-                      <div className="text-4xl">{getResourceIcon(resource.type)}</div>
+                      {(() => { const Icon = getResourceIcon(resource.type); return <Icon className="w-10 h-10 text-aegis-forest dark:text-aegis-emerald flex-shrink-0" />; })()}
                       <div className="flex-1">
                         <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{resource.title}</h4>
                         <div className="flex flex-wrap gap-2 mb-2">

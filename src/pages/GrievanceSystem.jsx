@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, ClipboardList, Calendar, Plus } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Input from '../components/Input';
@@ -115,9 +116,7 @@ const GrievanceSystem = () => {
                 onClick={() => navigate('/dashboard')}
                 className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-aegis-dark-mist transition-colors"
               >
-                <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
+                <ArrowLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </motion.button>
               <div>
                 <h1 className="text-3xl font-bold text-gradient">Voice - Grievance System</h1>
@@ -126,7 +125,7 @@ const GrievanceSystem = () => {
             </div>
             <div className="flex items-center gap-4">
               <Button onClick={() => setShowNewGrievanceModal(true)}>
-                + New Grievance
+                <Plus className="w-4 h-4 inline mr-1" />New Grievance
               </Button>
               <ThemeToggle />
             </div>
@@ -178,11 +177,11 @@ const GrievanceSystem = () => {
                     </div>
                     <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                       <span className="flex items-center gap-1">
-                        <span>📋</span>
+                        <ClipboardList className="w-4 h-4" />
                         {grievance.category}
                       </span>
                       <span className="flex items-center gap-1">
-                        <span>📅</span>
+                        <Calendar className="w-4 h-4" />
                         {grievance.createdAt}
                       </span>
                     </div>

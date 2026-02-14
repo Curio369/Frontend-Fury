@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { MessageSquare, BookOpen, Rocket, Users, Radio, HeartPulse, Landmark } from 'lucide-react';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import ThemeToggle from '../components/ThemeToggle';
@@ -16,43 +17,43 @@ const Landing = () => {
       title: 'Voice',
       subtitle: 'Grievance System',
       description: 'Your voice matters. Submit, track, and resolve grievances with complete transparency.',
-      icon: '🗣️'
+      icon: MessageSquare
     },
     {
       title: 'Fate',
       subtitle: 'Academic Mastery',
       description: 'Master your academic journey with course management and knowledge vault.',
-      icon: '📚'
+      icon: BookOpen
     },
     {
       title: 'Growth',
       subtitle: 'Opportunities',
       description: 'Discover internships, projects, and tasks tailored for your growth.',
-      icon: '🚀'
+      icon: Rocket
     },
     {
       title: 'Spirit',
       subtitle: 'Clubs & Events',
       description: 'Connect with clubs, join events, and build lasting campus memories.',
-      icon: '🎭'
+      icon: Users
     },
     {
       title: 'Pulse',
       subtitle: 'Campus Feed',
       description: 'Stay updated with real-time announcements and campus news.',
-      icon: '📡'
+      icon: Radio
     },
     {
       title: 'Strength',
       subtitle: 'Health & Wellness',
       description: 'Access health services and maintain your wellbeing balance.',
-      icon: '💪'
+      icon: HeartPulse
     },
     {
       title: 'Foundation',
       subtitle: 'Infrastructure',
       description: 'Manage hostel, transport, and campus facilities seamlessly.',
-      icon: '🏛️'
+      icon: Landmark
     }
   ];
 
@@ -186,7 +187,9 @@ const Landing = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Card hover={true} className="h-full">
-                  <div className="text-5xl mb-4">{pillar.icon}</div>
+                  <div className="mb-4">
+                    <pillar.icon className="w-12 h-12 text-aegis-forest dark:text-aegis-emerald" />
+                  </div>
                   <h3 className="text-2xl font-bold text-aegis-forest dark:text-aegis-emerald mb-2">
                     {pillar.title}
                   </h3>

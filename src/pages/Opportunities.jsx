@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, MapPin, Briefcase, Clock, FolderOpen, Calendar } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Badge from '../components/Badge';
@@ -152,9 +153,7 @@ const Opportunities = () => {
                 onClick={() => navigate('/dashboard')}
                 className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-aegis-dark-mist transition-colors"
               >
-                <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
+                <ArrowLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </motion.button>
               <div>
                 <h1 className="text-3xl font-bold text-gradient">Growth - Opportunities</h1>
@@ -237,13 +236,13 @@ const Opportunities = () => {
                     <div className="space-y-3 mb-4">
                       <div className="flex flex-wrap gap-2">
                         <span className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                          📍 {internship.location}
+                          <MapPin className="w-4 h-4" /> {internship.location}
                         </span>
                         <span className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                          💼 {internship.type}
+                          <Briefcase className="w-4 h-4" /> {internship.type}
                         </span>
                         <span className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                          ⏱️ {internship.duration}
+                          <Clock className="w-4 h-4" /> {internship.duration}
                         </span>
                       </div>
 
@@ -316,10 +315,10 @@ const Opportunities = () => {
                       <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">{task.description}</p>
                       <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                         <span className="flex items-center gap-1">
-                          📂 {task.category}
+                          <FolderOpen className="w-4 h-4" /> {task.category}
                         </span>
                         <span className="flex items-center gap-1">
-                          📅 Due: {task.dueDate}
+                          <Calendar className="w-4 h-4" /> Due: {task.dueDate}
                         </span>
                       </div>
                     </div>

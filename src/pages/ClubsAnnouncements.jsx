@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, Code, Camera, Mic, Music, Rocket, Sprout, Users, Check, Clock, MapPin, Megaphone, FolderOpen } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Badge from '../components/Badge';
@@ -17,7 +18,7 @@ const ClubsAnnouncements = () => {
     {
       id: 1,
       name: 'Coding Club',
-      icon: '💻',
+      icon: Code,
       category: 'Technical',
       members: 245,
       description: 'A community of passionate programmers building projects and solving problems together.',
@@ -28,7 +29,7 @@ const ClubsAnnouncements = () => {
     {
       id: 2,
       name: 'Photography Club',
-      icon: '📸',
+      icon: Camera,
       category: 'Arts',
       members: 180,
       description: 'Capture moments, share stories, and explore the art of photography with fellow enthusiasts.',
@@ -39,7 +40,7 @@ const ClubsAnnouncements = () => {
     {
       id: 3,
       name: 'Debate Society',
-      icon: '🎤',
+      icon: Mic,
       category: 'Literary',
       members: 120,
       description: 'Sharpen your argumentation skills and engage in thought-provoking discussions.',
@@ -50,7 +51,7 @@ const ClubsAnnouncements = () => {
     {
       id: 4,
       name: 'Music Club',
-      icon: '🎵',
+      icon: Music,
       category: 'Arts',
       members: 200,
       description: 'From classical to contemporary, unite through the universal language of music.',
@@ -61,7 +62,7 @@ const ClubsAnnouncements = () => {
     {
       id: 5,
       name: 'Innovation Lab',
-      icon: '🚀',
+      icon: Rocket,
       category: 'Technical',
       members: 150,
       description: 'Transform ideas into reality through innovation, entrepreneurship, and collaboration.',
@@ -72,7 +73,7 @@ const ClubsAnnouncements = () => {
     {
       id: 6,
       name: 'Environmental Club',
-      icon: '🌱',
+      icon: Sprout,
       category: 'Social',
       members: 190,
       description: 'Work towards a sustainable future through awareness campaigns and green initiatives.',
@@ -213,9 +214,7 @@ const ClubsAnnouncements = () => {
                 onClick={() => navigate('/dashboard')}
                 className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-aegis-dark-mist transition-colors"
               >
-                <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
+                <ArrowLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </motion.button>
               <div>
                 <h1 className="text-3xl font-bold text-gradient">Spirit - Clubs & Events</h1>
@@ -260,14 +259,14 @@ const ClubsAnnouncements = () => {
               >
                 <Card hover={true} className="cursor-pointer h-full" onClick={() => setSelectedClub(club)}>
                   <div className="text-center">
-                    <div className="text-6xl mb-4">{club.icon}</div>
+                    <div className="mb-4"><club.icon className="w-14 h-14 text-aegis-forest dark:text-aegis-emerald mx-auto" /></div>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{club.name}</h3>
                     <Badge variant={getCategoryColor(club.category)} className="mb-3">
                       {club.category}
                     </Badge>
                     <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{club.description}</p>
                     <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                      <span>👥</span>
+                      <Users className="w-4 h-4" />
                       <span>{club.members} members</span>
                     </div>
 
@@ -284,7 +283,7 @@ const ClubsAnnouncements = () => {
                       size="sm"
                       className="w-full"
                     >
-                      {club.isJoined ? 'Joined ✓' : 'Join Club'}
+                      {club.isJoined ? <><Check className="w-4 h-4 inline mr-1" />Joined</> : 'Join Club'}
                     </Button>
                   </div>
                 </Card>
@@ -324,9 +323,9 @@ const ClubsAnnouncements = () => {
                         <div>
                           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{event.title}</h3>
                           <div className="flex flex-wrap gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <span className="flex items-center gap-1">🎭 {event.club}</span>
-                            <span className="flex items-center gap-1">🕐 {event.time}</span>
-                            <span className="flex items-center gap-1">📍 {event.venue}</span>
+                            <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {event.club}</span>
+                            <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {event.time}</span>
+                            <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {event.venue}</span>
                           </div>
                         </div>
                         <Badge variant={event.status === 'registration_open' ? 'success' : 'info'}>
@@ -385,13 +384,13 @@ const ClubsAnnouncements = () => {
                       <p className="text-gray-600 dark:text-gray-300 mb-3">{announcement.content}</p>
                       <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                         <span className="flex items-center gap-1">
-                          📢 {announcement.author}
+                          <Megaphone className="w-4 h-4" /> {announcement.author}
                         </span>
                         <span className="flex items-center gap-1">
-                          📂 {announcement.category}
+                          <FolderOpen className="w-4 h-4" /> {announcement.category}
                         </span>
                         <span className="flex items-center gap-1">
-                          🕐 {announcement.time}
+                          <Clock className="w-4 h-4" /> {announcement.time}
                         </span>
                       </div>
                     </div>
@@ -413,7 +412,7 @@ const ClubsAnnouncements = () => {
         {selectedClub && (
           <div className="space-y-6">
             <div className="text-center">
-              <div className="text-8xl mb-4">{selectedClub.icon}</div>
+              <div className="mb-4"><selectedClub.icon className="w-20 h-20 text-aegis-forest dark:text-aegis-emerald mx-auto" /></div>
               <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{selectedClub.name}</h3>
               <Badge variant={getCategoryColor(selectedClub.category)} className="mb-4">
                 {selectedClub.category}

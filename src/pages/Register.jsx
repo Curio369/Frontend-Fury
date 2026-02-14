@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { GraduationCap, BookUser, Briefcase, Shield } from 'lucide-react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Card from '../components/Card';
@@ -19,10 +20,10 @@ const Register = () => {
   });
 
   const roles = [
-    { id: 'student', name: 'Student', icon: '🎓', description: 'Undergraduate or Graduate' },
-    { id: 'faculty', name: 'Faculty', icon: '👨‍🏫', description: 'Teaching Staff' },
-    { id: 'authority', name: 'Authority', icon: '👔', description: 'Administrative Staff' },
-    { id: 'admin', name: 'Admin', icon: '🛡️', description: 'System Administrator' }
+    { id: 'student', name: 'Student', icon: GraduationCap, description: 'Undergraduate or Graduate' },
+    { id: 'faculty', name: 'Faculty', icon: BookUser, description: 'Teaching Staff' },
+    { id: 'authority', name: 'Authority', icon: Briefcase, description: 'Administrative Staff' },
+    { id: 'admin', name: 'Admin', icon: Shield, description: 'System Administrator' }
   ];
 
   const handleChange = (e) => {
@@ -175,7 +176,7 @@ const Register = () => {
                           : 'border-gray-200 dark:border-aegis-slate hover:border-aegis-forest/50 dark:hover:border-aegis-emerald/50'
                       }`}
                     >
-                      <div className="text-4xl mb-3">{role.icon}</div>
+                      <div className="mb-3"><role.icon className="w-10 h-10 text-aegis-forest dark:text-aegis-emerald" /></div>
                       <div className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1">
                         {role.name}
                       </div>
