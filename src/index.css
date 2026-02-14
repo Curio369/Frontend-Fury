@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body antialiased;
+    @apply bg-white dark:bg-aegis-navy;
+    @apply text-gray-900 dark:text-gray-100;
+    @apply transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/80 dark:bg-aegis-slate/80 backdrop-blur-md;
+  }
+
+  .card-shadow {
+    @apply shadow-soft hover:shadow-soft-lg transition-shadow duration-300;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-aegis-forest to-aegis-emerald bg-clip-text text-transparent;
+    @apply dark:from-aegis-sky dark:to-aegis-emerald;
+  }
+}
